@@ -1,15 +1,28 @@
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+var react = require('react');
+var api = require('@polkadot/api');
 
-var React = _interopDefault(require('react'));
+var BittensorProvider = function BittensorProvider(_ref) {
+  var children = _ref.children;
 
-var styles = {"test":"_3ybTi"};
-
-var ExampleComponent = function ExampleComponent(_ref) {
-  var text = _ref.text;
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles.test
-  }, "Example Component: ", text);
+  try {
+    var wsProvider = new api.WsProvider('wss://subtensor.noburu.app:9944');
+    return Promise.resolve(api.ApiPromise.create({
+      provider: wsProvider
+    })).then(function (api) {
+      react.useEffect(function () {
+        console.log(api.genesisHash.toHex());
+      });
+      return /*#__PURE__*/React.createElement(BittensorContext.Provider, {
+        value: {
+          api: api
+        }
+      }, children);
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
+var BittensorContext = react.createContext({});
 
-exports.ExampleComponent = ExampleComponent;
+exports.BittensorProvider = BittensorProvider;
 //# sourceMappingURL=index.js.map

@@ -1,13 +1,23 @@
-import React from 'react';
+import { createContext, useEffect } from 'react';
+import { WsProvider, ApiPromise } from '@polkadot/api';
 
-var styles = {"test":"_3ybTi"};
+const BittensorContext = createContext({});
+async function BittensorProvider({
+  children
+}) {
+  const wsProvider = new WsProvider('wss://subtensor.noburu.app:9944');
+  const api = await ApiPromise.create({
+    provider: wsProvider
+  });
+  useEffect(() => {
+    console.log(api.genesisHash.toHex());
+  });
+  return /*#__PURE__*/React.createElement(BittensorContext.Provider, {
+    value: {
+      api
+    }
+  }, children);
+}
 
-var ExampleComponent = function ExampleComponent(_ref) {
-  var text = _ref.text;
-  return /*#__PURE__*/React.createElement("div", {
-    className: styles.test
-  }, "Example Component: ", text);
-};
-
-export { ExampleComponent };
+export { BittensorProvider };
 //# sourceMappingURL=index.modern.js.map
