@@ -1,2 +1,2 @@
-export { BittensorProvider } from './context';
-export { useBittensor } from './hooks/useBittensor';
+export { BittensorProvider } from './context/BittensorProvider/BittensorProvider';
+export { useBittensor } from './hooks/useBittensor/index';

@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect, useReducer } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import Balance from '../../../src/classes/Balance';
+import Balance from './Balance';
 import { Keyring } from '@polkadot/api';
 import { mnemonicGenerate } from '@polkadot/util-crypto';
 
