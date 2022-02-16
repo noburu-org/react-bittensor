@@ -1,25 +1,50 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../src/styles/Home.module.css'
-import { BittensorContext } from '../src/context/BittensorProvider/BittensorProvider'
-import { useContext, useState } from 'react'
-
+import { useState } from 'react'
+import { useBittensor } from '../src/hooks/useBittensor'
 import { Box, TextField, Grid, Button } from '@mui/material'
 
-
-
+// 5DL9BytB9wkzDM8cq5tg3MC8Tsd2V24mKBKKiicCP5QrGqjr
 
 export default function Home() {
-  const { api } = useContext(BittensorContext);
-
+  const { 
+    api, 
+    difficulty, 
+    total_issuance, 
+    total_stake, 
+    n, 
+    get_balance,
+    create_coldkey,
+    create_hotkey,
+  } = useBittensor();
   // create a handler function for typing in the input and setting the state
   const [input, setInput] = useState('');
-
-  const handleChange = (event) => {
-    console.log(api.genesisHash.toHex())
+  // const { api, get_balance } = useBittensor();
+  
+  const handleChange = async (event) => {
     setInput(event.target.value);
   };
   
+
+  const handleSubmit = async (event) => {
+    const b = await get_balance(api, input)
+
+    const coldkey = await create_coldkey()
+    console.log('tao balance', b.tao)
+
+
+    console.log('difficulty', difficulty)
+    console.log('total_issuance', total_issuance)
+    console.log('total_stake', total_stake)
+    console.log('n', n)
+
+    console.log('mnemonic', coldkey.mnemonic)
+    console.log('pair', coldkey.pair)
+
+
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -57,6 +82,7 @@ export default function Home() {
           color="primary"
           size="small"
           fullWidth
+          onClick={handleSubmit}
         >
             Search
         </Button>
