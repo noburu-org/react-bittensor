@@ -9,21 +9,53 @@
 ```bash
 npm install --save react-bittensor
 ```
-
+OR
+```bash
+yarn add react-bittensor
+```
 ## Usage
 
+In your App.js or _app.js (next.js) add the Bittensor Provider
+
 ```jsx
-import React, { Component } from 'react'
+import { BittensorProvider } from 'react-bittensor';
 
-import MyComponent from 'react-bittensor'
-import 'react-bittensor/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+const MyApp = (props) => {
+  const { Component, pageProps } = props;
+
+  return (
+    <BittensorProvider>
+      <Component {...pageProps} />
+    </BittensorProvider>
+  );
+};
+
 ```
+
+then call Bittensor from anywhere.
+
+```jsx
+import { useBittensor } from 'react-bittensor'
+
+
+function MyComponent() {
+
+  const { 
+    api, // API object that has a websocket to subtensor
+    difficulty, // number type, current registration difficulty
+    total_issuance, // number type, total issuance
+    total_stake, // number type, total stake
+    n, // number type, total machines in active set
+    get_balance, // function, takes (api, ADDRESS)
+    create_coldkey, //function takes no args, returns {mnemonic: mnemonic, pair: pair}
+    create_hotkey, //function takes no args, returns {mnemonic: mnemonic, pair: pair}
+  } = useBittensor();
+
+  ...
+
+}
+  ```
 
 ## License
 
